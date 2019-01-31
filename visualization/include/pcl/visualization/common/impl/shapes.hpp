@@ -39,6 +39,8 @@
 #pragma once
 #include <vtkSmartPointer.h>
 #include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkCellArray.h>
 #include <vtkPolygon.h>
 #include <vtkUnstructuredGrid.h>
 
