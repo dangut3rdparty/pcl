@@ -323,7 +323,7 @@ pcl::visualization::PCLVisualizer::addPolygon (
   if (am_it != shape_actor_map_->end ())
   {
     vtkSmartPointer<vtkAppendPolyData> all_data = vtkSmartPointer<vtkAppendPolyData>::New ();
-    
+
     // Add old data
 #if VTK_MAJOR_VERSION < 6
     all_data->AddInput (reinterpret_cast<vtkPolyDataMapper*> ((vtkActor::SafeDownCast (am_it->second))->GetMapper ())->GetInput ());
@@ -474,6 +474,35 @@ pcl::visualization::PCLVisualizer::addLine (const P1 &pt1, const P2 &pt2, double
   (*shape_actor_map_)[id] = actor;
   return (true);
 }
+////////////////////////////////////////////////////////////////////////////////////////////
+
+template <typename PointT> bool
+pcl::visualization::PCLVisualizer::addPolyLine (const typename pcl::PointCloud<PointT>::ConstPtr &cloud,
+                                                double r, double g, double b,
+                                                const std::string &id, int viewport)
+{
+  if (contains (id))
+  {
+    PCL_WARN ("[addPolyLine] The id <%s> already exists! Please choose a different id and retry.\n", id.c_str ());
+    return (false);
+  }
+
+  vtkSmartPointer<vtkDataSet> data = createPolyline<PointT> (cloud);
+  if (!data)
+    return (false);
+
+  // Create an Actor
+  vtkSmartPointer<vtkActor> actor;
+  createActorFromVTKDataSet (data, actor);
+  actor->GetProperty ()->SetRepresentationToWireframe ();
+  actor->GetProperty ()->SetColor (r, g, b);
+  actor->GetMapper ()->ScalarVisibilityOff ();
+  addActorToRenderer (actor, viewport);
+
+  // Save the pointer/ID pair to the global actor map
+  (*shape_actor_map_)[id] = actor;
+  return (true);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 template <typename P1, typename P2> bool
@@ -555,7 +584,7 @@ pcl::visualization::PCLVisualizer::addArrow (const P1 &pt1, const P2 &pt2,
   leader->AutoLabelOn ();
 
   leader->GetLabelTextProperty()->SetColor(r_text, g_text, b_text);
-  
+
   leader->GetProperty ()->SetColor (r_line, g_line, b_line);
   addActorToRenderer (leader, viewport);
 
@@ -588,8 +617,8 @@ pcl::visualization::PCLVisualizer::addSphere (const PointT &center, double radiu
   data->SetThetaResolution (10);
   data->LatLongTessellationOff ();
   data->Update ();
- 
-  // Setup actor and mapper 
+
+  // Setup actor and mapper
   vtkSmartPointer <vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New ();
   mapper->SetInputConnection (data->GetOutputPort ());
 
@@ -1168,7 +1197,7 @@ pcl::visualization::PCLVisualizer::addCorrespondences (
   line_cells->SetCells (n_corr, line_cells_id);
   line_points->SetNumberOfPoints (j*2);
   line_tcoords->SetNumberOfTuples (j*2);
- 
+
   // Fill in the lines
   line_data->SetPoints (line_points);
   line_data->SetLines (line_cells);
@@ -1673,7 +1702,7 @@ pcl::visualization::PCLVisualizer::addPolygonMesh (
     cell_array->Squeeze ();
     polydata->SetPolys (cell_array);
     polydata->SetPoints (points);
-  
+
     if (colors)
       polydata->GetPointData ()->SetScalars (colors);
 
@@ -1801,7 +1830,7 @@ pcl::visualization::PCLVisualizer::updatePolygonMesh (
     {
       if (!isFinite (cloud->points[i]))
         continue;
-      memcpy (&rgb_data, 
+      memcpy (&rgb_data,
               reinterpret_cast<const char*> (&cloud->points[i]) + fields[rgb_idx].offset,
               sizeof (pcl::RGB));
       unsigned char color[3];
