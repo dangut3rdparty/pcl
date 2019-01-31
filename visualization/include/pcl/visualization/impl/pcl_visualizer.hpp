@@ -505,9 +505,9 @@ pcl::visualization::PCLVisualizer::addPolyLine (const typename pcl::PointCloud<P
 }
 
 template <typename P1, typename P2> bool
-addMultiSegments (const std::vector<const std::pair<const P1, const P2>>& segments,
-                  double r, double g, double b,
-                  const std::string &id, int viewport)
+pcl::visualization::PCLVisualizer::addMultiSegments (const std::vector<const std::pair<const P1, const P2>>& segments,
+                                                      double r, double g, double b,
+                                                      const std::string &id, int viewport)
 {
   if (contains (id))
   {
