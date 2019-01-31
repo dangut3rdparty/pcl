@@ -504,6 +504,34 @@ pcl::visualization::PCLVisualizer::addPolyLine (const typename pcl::PointCloud<P
   return (true);
 }
 
+template <typename P1, typename P2> bool
+addMultiSegments (const std::vector<const std::pair<const P1, const P2>>& segments,
+                  double r, double g, double b,
+                  const std::string &id = "segments", int viewport = 0)
+{
+  if (contains (id))
+  {
+    PCL_WARN ("[addMultiSegments] The id <%s> already exists! Please choose a different id and retry.\n", id.c_str ());
+    return (false);
+  }
+
+  vtkSmartPointer<vtkDataSet> data = createMultisegments<P1,P2> (segments);
+  if (!data)
+    return (false);
+
+  // Create an Actor
+  vtkSmartPointer<vtkActor> actor;
+  createActorFromVTKDataSet (data, actor);
+  actor->GetProperty ()->SetRepresentationToWireframe ();
+  actor->GetProperty ()->SetColor (r, g, b);
+  actor->GetMapper ()->ScalarVisibilityOff ();
+  addActorToRenderer (actor, viewport);
+
+  // Save the pointer/ID pair to the global actor map
+  (*shape_actor_map_)[id] = actor;
+  return (true);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 template <typename P1, typename P2> bool
 pcl::visualization::PCLVisualizer::addArrow (const P1 &pt1, const P2 &pt2, double r, double g, double b, const std::string &id, int viewport)

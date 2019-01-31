@@ -76,6 +76,41 @@ pcl::visualization::createPolyline (const typename pcl::PointCloud<PointT>::Cons
   return (polyline_data);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////
+template <typename P1, typename P2> vtkSmartPointer<vtkDataSet>
+pcl::visualization::createMultisegments (const std::vector<const std::pair<const P1, const P2>>& segments)
+{
+  if (segments.empty ())
+    return vtkSmartPointer<vtkPolyData>();
+
+  vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New ();
+  points->SetNumberOfPoints (2*segments.size ());
+
+  vtkSmartPointer<vtkCellArray> lines = vtkSmartPointer<vtkCellArray>::New ();
+
+  for (size_t i = 0; i < segments.size (); ++i)
+  {
+    size_t id1 = 2*i;
+    size_t id2 = id1+1;
+    P1 p1 = segments[i].first;
+    P2 p2 = segments[i].second;
+    points->SetPoint (id1, p1.x, p1.y, p1.z);
+    points->SetPoint (id2, p2.x, p2.y, p2.z);
+
+    vtkSmartPointer<vtkLine> line = vtkSmartPointer<vtkLine>::New();
+    line->GetPointIds()->SetId(0,id1);
+    line->GetPointIds()->SetId(1,id2);
+    lines->InsertNextCell(line);
+  }
+
+  vtkSmartPointer<vtkPolyData> multisegments_data = vtkSmartPointer<vtkPolyData>::New();
+  multisegments_data->SetPoints(points);
+  multisegments_data->SetLines(lines);
+
+  return (multisegments_data);
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> vtkSmartPointer<vtkDataSet>

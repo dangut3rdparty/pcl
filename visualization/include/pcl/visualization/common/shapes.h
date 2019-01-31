@@ -66,6 +66,9 @@ namespace pcl
     template <typename PointT> vtkSmartPointer<vtkDataSet> inline
     createPolyline (const typename pcl::PointCloud<PointT>::ConstPtr &cloud);
 
+    template <typename P1, typename P2> vtkSmartPointer<vtkDataSet> inline
+    createMultisegments (const std::vector<const std::pair<const P1, const P2>>& segments);
+
     /** \brief Create a 3d polygon from a set of points.
       * \param[in] cloud the set of points used to create the 3d polyline
       * \ingroup visualization

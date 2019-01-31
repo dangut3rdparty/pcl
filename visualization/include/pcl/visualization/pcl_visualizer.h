@@ -1321,6 +1321,19 @@ namespace pcl
                     double r, double g, double b,
                     const std::string &id = "polyline", int viewport = 0);
 
+        /** \brief Add a collection of segments (connects points by pairs)
+          * \param[in] vector of segments
+          * \param[in] r the red channel of the color that the segments should be rendered with
+          * \param[in] g the green channel of the color that the segments should be rendered with
+          * \param[in] b the blue channel of the color that the segments should be rendered with
+          * \param[in] id (optional) the segment collection id/name (default: "segments")
+          * \param[in] viewport (optional) the id of the new viewport (default: 0)
+          */
+        template <typename P1, typename P2> bool
+        addMultiSegments (const std::vector<const std::pair<const P1, const P2>>& segments,
+                          double r, double g, double b,
+                          const std::string &id = "segments", int viewport = 0);
+
         /** \brief Add a line arrow segment between two points, and display the distance between them
           *
           * Arrow heads are attached to both end points of the arrow.
