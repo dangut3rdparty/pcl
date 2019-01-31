@@ -78,7 +78,7 @@ pcl::visualization::createPolyline (const typename pcl::PointCloud<PointT>::Cons
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 template <typename P1, typename P2> vtkSmartPointer<vtkDataSet>
-pcl::visualization::createMultisegments (const std::vector<const std::pair<const P1, const P2>>& segments)
+pcl::visualization::createMultisegments (const std::vector<std::pair<const P1, const P2>>& segments)
 {
   if (segments.empty ())
     return vtkSmartPointer<vtkPolyData>();

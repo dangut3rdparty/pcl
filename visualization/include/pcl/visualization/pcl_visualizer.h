@@ -1330,7 +1330,7 @@ namespace pcl
           * \param[in] viewport (optional) the id of the new viewport (default: 0)
           */
         template <typename P1, typename P2> bool
-        addMultiSegments (const std::vector<const std::pair<const P1, const P2>>& segments,
+        addMultiSegments (const std::vector<std::pair<const P1, const P2>>& segments,
                           double r, double g, double b,
                           const std::string &id = "segments", int viewport = 0);
 
