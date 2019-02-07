@@ -177,7 +177,7 @@ namespace pcl
       * \ingroup visualization
       */
     PCL_EXPORTS vtkSmartPointer<vtkDataSet>
-    createEllipsoid (const pcl::ModelCoefficients &coefficients, int res = 4);
+    createEllipsoid (const pcl::ModelCoefficients &coefficients, int res = 10);
 
     /** \brief Create a line shape from a set of model coefficients.
       * \param[in] coefficients the model coefficients (point_on_line, line_direction)
