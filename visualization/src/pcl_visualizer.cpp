@@ -2321,7 +2321,7 @@ pcl::visualization::PCLVisualizer::addEllipsoid (const pcl::ModelCoefficients &c
     return (false);
   }
 
-  if (coefficients.values.size () != 6)
+  if (coefficients.values.size () != 10)
   {
     PCL_WARN ("[addEllipsoid] Coefficients size does not match expected size (expected 4).\n");
     return (false);
@@ -2353,7 +2353,7 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
     return (false);
   }
 
-  if (coefficients[0].values.size () != 6)
+  if (coefficients[0].values.size () != 10)
   {
     PCL_WARN ("[addEllipsoids] Coefficients size does not match expected size (expected 4).\n");
     return (false);

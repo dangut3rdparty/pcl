@@ -95,12 +95,15 @@ pcl::visualization::createEllipsoid (const pcl::ModelCoefficients &coefficients,
 {
   // Set the ellipsoid origin
   vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New ();
-  t->Identity (); t->Translate (coefficients.values[0], coefficients.values[1], coefficients.values[2]);
+  t->PostMultiply();
+  t->Identity ();
+  t->RotateWXYZ(coefficients.values[3], coefficients.values[4], coefficients.values[5], coefficients.values[6]);
+  t->Translate (coefficients.values[0], coefficients.values[1], coefficients.values[2]);
 
   vtkSmartPointer<vtkParametricSuperEllipsoid> s_ellipsoid = vtkSmartPointer<vtkParametricSuperEllipsoid>::New ();
-  s_ellipsoid->SetXRadius(coefficients.values[3]);
-  s_ellipsoid->SetYRadius(coefficients.values[4]);
-  s_ellipsoid->SetZRadius(coefficients.values[5]);
+  s_ellipsoid->SetXRadius(coefficients.values[7]);
+  s_ellipsoid->SetYRadius(coefficients.values[8]);
+  s_ellipsoid->SetZRadius(coefficients.values[9]);
 
   vtkSmartPointer<vtkParametricFunctionSource> source = vtkSmartPointer<vtkParametricFunctionSource>::New();
   source->SetParametricFunction(s_ellipsoid);
