@@ -2370,7 +2370,7 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
 
   // Create an Actor
   vtkSmartPointer<vtkLODActor> actor;
-  createActorFromVTKDataSet (appendFilter->GetOutputPort(), actor);
+  createActorFromVTKDataSet (appendFilter->GetOutput(), actor);
   actor->GetProperty ()->SetRepresentationToSurface ();
   actor->GetProperty ()->SetColor (r,g,b);
   addActorToRenderer (actor, viewport);
