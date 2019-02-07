@@ -2345,6 +2345,9 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
                                                           float r, float g, float b,
                                                           const std::string &id, int viewport)
 {
+  if (coeffcients.empty())
+    return(false);
+
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
   ShapeActorMap::iterator am_it = shape_actor_map_->find (id);
   if (am_it != shape_actor_map_->end ())
@@ -2364,7 +2367,6 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
   for (int i=0; i<coefficients.size(); i++) {
     vtkSmartPointer<vtkDataSet> data = createEllipsoid (coefficients[i]);
     appendFilter->AddInputData(data);
-    std::cout << "i: " << i << std::endl;
   }
 
   appendFilter->Update();
