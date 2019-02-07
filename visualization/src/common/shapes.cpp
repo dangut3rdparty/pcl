@@ -107,6 +107,9 @@ pcl::visualization::createEllipsoid (const pcl::ModelCoefficients &coefficients,
 
   vtkSmartPointer<vtkParametricFunctionSource> source = vtkSmartPointer<vtkParametricFunctionSource>::New();
   source->SetParametricFunction(s_ellipsoid);
+  source->SetUResolution(res);
+  source->SetVResolution(res);
+  source->SetWResolution(res);
 
   vtkSmartPointer<vtkTransformPolyDataFilter> tf = vtkSmartPointer<vtkTransformPolyDataFilter>::New ();
   tf->SetTransform (t);
