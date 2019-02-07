@@ -2363,7 +2363,7 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
 
   for (int i=0; i<coefficients.size(); i++) {
     vtkSmartPointer<vtkDataSet> data = createEllipsoid (coefficients[i]);
-    appendFilter->AddInput(data);
+    appendFilter->AddInputData(data);
   }
 
   appendFilter->Update();
