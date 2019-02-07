@@ -1526,6 +1526,35 @@ namespace pcl
                    const std::string &id = "sphere",
                    int viewport = 0);
 
+
+        /** \brief Add an ellipsoid from a set of given model coefficients
+          * \param[in] coefficients the model coefficients (ellipsoid center, radius_x, radius_y, radius_z)
+          * \param[in] id the ellipsoid id/name (default: "ellipsoid")
+          * \param[in] viewport (optional) the id of the new viewport (default: 0)
+          *
+          * \code
+          * // The following are given (or computed using sample consensus techniques)
+          * // See SampleConsensusModelSphere for more information
+          * // Eigen::Vector3f sphere_center;
+          * // float radius;
+          *
+          * pcl::ModelCoefficients ellipsoide_coeff;
+          * ellipsoid_coeff.values.resize (6);    // We need 6 values
+          * ellipsoid_coeff.values[0] = ellipsoid_center.x ();
+          * ellipsoid_coeff.values[1] = ellipsoid_center.y ();
+          * ellipsoid_coeff.values[2] = ellipsoid_center.z ();
+          *
+          * ellipsoid_coeff.values[3] = radius_x;
+          * ellipsoid_coeff.values[4] = radius_y;
+          * ellipsoid_coeff.values[5] = radius_z;
+          *
+          * addEllipsoid (ellipsoid_coeff);
+          * \endcode
+          */
+        bool addEllipsoid (const pcl::ModelCoefficients &coefficients,
+                           const std::string &id = "ellipsoid",
+                           int viewport = 0);
+
         /** \brief Add a line from a set of given model coefficients
           * \param[in] coefficients the model coefficients (point_on_line, direction)
           * \param[in] id the line id/name (default: "line")

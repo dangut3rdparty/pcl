@@ -154,6 +154,31 @@ namespace pcl
     PCL_EXPORTS vtkSmartPointer<vtkDataSet>
     createSphere (const pcl::ModelCoefficients &coefficients, int res = 10);
 
+    /** \brief Create a sphere shape from a set of model coefficients.
+      * \param[in] coefficients the model coefficients (sphere center, radius)
+      * \param[in] res (optional) the resolution used for rendering the model
+      *
+      * \code
+      * // The following are given (or computed using sample consensus techniques -- see SampleConsensusModelSphere)
+      * // Eigen::Vector3f sphere_center;
+      * // float radius;
+      *
+      * pcl::ModelCoefficients sphere_coeff;
+      * sphere_coeff.values.resize (4);    // We need 4 values
+      * sphere_coeff.values[0] = sphere_center.x ();
+      * sphere_coeff.values[1] = sphere_center.y ();
+      * sphere_coeff.values[2] = sphere_center.z ();
+      *
+      * sphere_coeff.values[3] = radius;
+      *
+      * vtkSmartPointer<vtkDataSet> data = pcl::visualization::createSphere (sphere_coeff, resolution);
+      * \endcode
+      *
+      * \ingroup visualization
+      */
+    PCL_EXPORTS vtkSmartPointer<vtkDataSet>
+    createEllipsoid (const pcl::ModelCoefficients &coefficients, int res = 10);
+
     /** \brief Create a line shape from a set of model coefficients.
       * \param[in] coefficients the model coefficients (point_on_line, line_direction)
       *
