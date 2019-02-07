@@ -38,6 +38,7 @@
 
 #include <pcl/visualization/common/common.h>
 #include <pcl/conversions.h>
+#include <vtkAppendFilter.h>
 #include <vtkVersion.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
@@ -2352,7 +2353,7 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
     return (false);
   }
 
-  if (coefficients.values.size () != 6)
+  if (coefficients[0].values.size () != 6)
   {
     PCL_WARN ("[addEllipsoids] Coefficients size does not match expected size (expected 4).\n");
     return (false);
@@ -2360,7 +2361,7 @@ pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl:
 
   vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
 
-  for (int i=0; i<coeffcients.size(); i++) {
+  for (int i=0; i<coefficients.size(); i++) {
     vtkSmartPointer<vtkDataSet> data = createEllipsoid (coefficients[i]);
     appendFilter->AddInput(data);
   }
