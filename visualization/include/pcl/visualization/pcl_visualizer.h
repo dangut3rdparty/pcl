@@ -1555,6 +1555,11 @@ namespace pcl
                            const std::string &id = "ellipsoid",
                            int viewport = 0);
 
+        bool addMultipleEllipsoids (const std::vector<pcl::ModelCoefficients> &coefficients,
+                                    float r, float g, float b,
+                                     const std::string &id = "ellipsoid",
+                                     int viewport = 0);
+
         /** \brief Add a line from a set of given model coefficients
           * \param[in] coefficients the model coefficients (point_on_line, direction)
           * \param[in] id the line id/name (default: "line")

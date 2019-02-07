@@ -2316,7 +2316,7 @@ pcl::visualization::PCLVisualizer::addEllipsoid (const pcl::ModelCoefficients &c
   ShapeActorMap::iterator am_it = shape_actor_map_->find (id);
   if (am_it != shape_actor_map_->end ())
   {
-    pcl::console::print_warn (stderr, "[addSphere] A shape with id <%s> already exists! Please choose a different id and retry.\n", id.c_str ());
+    pcl::console::print_warn (stderr, "[addEllipsoid] A shape with id <%s> already exists! Please choose a different id and retry.\n", id.c_str ());
     return (false);
   }
 
@@ -2332,6 +2332,46 @@ pcl::visualization::PCLVisualizer::addEllipsoid (const pcl::ModelCoefficients &c
   vtkSmartPointer<vtkLODActor> actor;
   createActorFromVTKDataSet (data, actor);
   actor->GetProperty ()->SetRepresentationToSurface ();
+  addActorToRenderer (actor, viewport);
+
+  // Save the pointer/ID pair to the global actor map
+  (*shape_actor_map_)[id] = actor;
+  return (true);
+}
+
+bool
+pcl::visualization::PCLVisualizer::addMultipleEllipsoids (const std::vector<pcl::ModelCoefficients> &coefficients,
+                                                          float r, float g, float b,
+                                                          const std::string &id, int viewport)
+{
+  // Check to see if this ID entry already exists (has it been already added to the visualizer?)
+  ShapeActorMap::iterator am_it = shape_actor_map_->find (id);
+  if (am_it != shape_actor_map_->end ())
+  {
+    pcl::console::print_warn (stderr, "[addEllipsoids] A shape with id <%s> already exists! Please choose a different id and retry.\n", id.c_str ());
+    return (false);
+  }
+
+  if (coefficients.values.size () != 6)
+  {
+    PCL_WARN ("[addEllipsoids] Coefficients size does not match expected size (expected 4).\n");
+    return (false);
+  }
+
+  vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
+
+  for (int i=0; i<coeffcients.size(); i++) {
+    vtkSmartPointer<vtkDataSet> data = createEllipsoid (coefficients[i]);
+    appendFilter->AddInput(data);
+  }
+
+  appendFilter->Update();
+
+  // Create an Actor
+  vtkSmartPointer<vtkLODActor> actor;
+  createActorFromVTKDataSet (appendFilter->GetOutputPort(), actor);
+  actor->GetProperty ()->SetRepresentationToSurface ();
+  actor->GetProperty ()->SetColor (r,g,b);
   addActorToRenderer (actor, viewport);
 
   // Save the pointer/ID pair to the global actor map
